@@ -1,9 +1,10 @@
 import logging
+import sys
+sys.path.append("/home/sooda/speech/mxnet/python")
+sys.path.append("..")
 import numpy as np
 import mxnet as mx
-import sys
 
-sys.path.append("..")
 
 from mxgan import module, generator, encoder, viz
 
@@ -18,7 +19,7 @@ batch_size = 100
 rand_shape = (batch_size, 100)
 num_epoch = 100
 data_shape = (batch_size, 1, 28, 28)
-context = mx.gpu()
+context = mx.cpu()
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)-15s %(message)s')
 sym_gen = generator.dcgan28x28(oshape=data_shape, ngf=32, final_act="sigmoid")
@@ -40,7 +41,7 @@ gmod.init_optimizer(
         "beta1": beta1,
 })
 
-data_dir = './../../mxnet/example/image-classification/mnist/'
+data_dir = '/home/sooda/speech/mxnet/example/image-classification/data/'
 train = mx.io.MNISTIter(
     image = data_dir + "train-images-idx3-ubyte",
     label = data_dir + "train-labels-idx1-ubyte",

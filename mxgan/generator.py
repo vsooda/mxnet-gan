@@ -54,13 +54,17 @@ def fcgan(oshape, final_act, code=None):
     """DCGAN that generates 28x28 images using fully connected nets"""
     # Q: whether add BN
     code = mx.sym.Variable("code") if code is None else code
-    net = mx.sym.FullyConnected(code, name="g1", num_hidden=500, no_bias=True)
-    net = mx.sym.Activation(net, name="a1")
-    net = mx.sym.FullyConnected(net2, name="g2", num_hidden=500, no_bias=True)
-    net = mx.sym.Activation(net, name="a2")
+    code = mx.sym.Flatten(code)
+    net = mx.sym.FullyConnected(code, name="g1", num_hidden=28*28, no_bias=True)
+    net = mx.sym.Activation(net, name="a1", act_type="relu")
+    net = mx.sym.FullyConnected(net, name="g2", num_hidden=500, no_bias=True)
+    net = mx.sym.Activation(net, name="a2", act_type="relu")
     s = oshape[-3:]
-    net = mx.sym.FullyConnected(net2, name="g3",
-                                num_hidden=(s[-3] * s[-2] * s[-1]),
+    print oshape
+    net = mx.sym.FullyConnected(net, name="g3",
+                                num_hidden=(28 * 28),
+                                #num_hidden=(oshape[-1]),
                                 no_bias=True)
     net = mx.sym.Activation(net, name="gout", act_type=final_act)
     return net
+
