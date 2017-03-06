@@ -36,3 +36,14 @@ def dcgan(data=None, ngf=128):
     net = conv2d_bn_leaky(net, kernel=(4, 4), stride=(2, 2), pad=(1, 1), num_filter=ngf*4, prefix="e3")
     net = mx.sym.Flatten(net)
     return net
+
+def mlp(data=None):
+    data = mx.symbol.Variable('data')
+    data = mx.sym.Flatten(data=data)
+    fc1  = mx.symbol.FullyConnected(data = data, name='fc1', num_hidden=128)
+    act1 = mx.symbol.Activation(data = fc1, name='relu1', act_type="relu")
+    fc2  = mx.symbol.FullyConnected(data = act1, name = 'fc2', num_hidden = 64)
+    act2 = mx.symbol.Activation(data = fc2, name='relu2', act_type="relu")
+    net = mx.sym.FullyConnected(act2, num_hidden=500, name="fc3")
+    net = mx.sym.Activation(net, act_type="relu")
+    return net

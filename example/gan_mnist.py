@@ -22,11 +22,13 @@ data_shape = (batch_size, 1, 28, 28)
 context = mx.cpu()
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)-15s %(message)s')
-sym_gen = generator.dcgan28x28(oshape=data_shape, ngf=32, final_act="sigmoid")
+#sym_gen = generator.dcgan28x28(oshape=data_shape, ngf=32, final_act="sigmoid")
+sym_gen = generator.fcgan(oshape=data_shape, final_act="sigmoid")
 
 gmod = module.GANModule(
     sym_gen,
-    symbol_encoder=encoder.lenet(),
+    #symbol_encoder=encoder.lenet(),
+    symbol_encoder=encoder.mlp(),
     context=context,
     data_shape=data_shape,
     code_shape=rand_shape)

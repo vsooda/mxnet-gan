@@ -65,6 +65,7 @@ def fcgan(oshape, final_act, code=None):
                                 num_hidden=(28 * 28),
                                 #num_hidden=(oshape[-1]),
                                 no_bias=True)
-    net = mx.sym.Activation(net, name="gout", act_type=final_act)
+    net = mx.sym.Activation(net, name="gfull", act_type=final_act)
+    net = mx.sym.Reshape(net, name="gout", shape=(-1, 1, 28, 28))
     return net
 
