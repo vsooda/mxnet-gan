@@ -19,11 +19,11 @@ batch_size = 100
 rand_shape = (batch_size, 100)
 num_epoch = 100
 data_shape = (batch_size, 1, 28, 28)
-context = mx.cpu()
+context = mx.gpu()
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)-15s %(message)s')
-#sym_gen = generator.dcgan28x28(oshape=data_shape, ngf=32, final_act="sigmoid")
-sym_gen = generator.fcgan(oshape=data_shape, final_act="sigmoid")
+sym_gen = generator.dcgan28x28(oshape=data_shape, ngf=32, final_act="sigmoid")
+#sym_gen = generator.fcgan(oshape=data_shape, final_act="sigmoid")
 
 gmod = module.GANModule(
     sym_gen,

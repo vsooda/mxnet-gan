@@ -59,12 +59,11 @@ def fcgan(oshape, final_act, code=None):
     net = mx.sym.Activation(net, name="a1", act_type="relu")
     net = mx.sym.FullyConnected(net, name="g2", num_hidden=500, no_bias=True)
     net = mx.sym.Activation(net, name="a2", act_type="relu")
-    s = oshape[-3:]
-    print oshape
-    net = mx.sym.FullyConnected(net, name="g3",
-                                num_hidden=(28 * 28),
-                                #num_hidden=(oshape[-1]),
-                                no_bias=True)
+    net = mx.sym.FullyConnected(net, name="g3", num_hidden=500, no_bias=True)
+    net = mx.sym.Activation(net, name="a3", act_type="relu")
+    net = mx.sym.FullyConnected(net, name="g4", num_hidden=500, no_bias=True)
+    net = mx.sym.Activation(net, name="a4", act_type="relu")
+    net = mx.sym.FullyConnected(net, name="g5",num_hidden=(28 * 28),no_bias=True)
     net = mx.sym.Activation(net, name="gfull", act_type=final_act)
     net = mx.sym.Reshape(net, name="gout", shape=(-1, 1, 28, 28))
     return net
